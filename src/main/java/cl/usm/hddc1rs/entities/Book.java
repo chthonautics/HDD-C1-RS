@@ -27,7 +27,7 @@ public class Book {
     private String autor;
 
     @NotNull(message = "Se debe incluir el numero de paginas")
-    @Min(value = 10, message = "El numero de paginas debe ser mayor a 10")
+    @Min(value = 10, message = "El numero de paginas debe ser igual o mayor a 10")
     private Integer paginas; // at least 10
 
     @NotBlank(message = "Se requiere una categoria")
