@@ -10,4 +10,5 @@ public interface BookService {
     List<Book> getAllBooks();
     List<Book> getBooksByAuthor(String author);
     List<Book> filter(String query);
+    Optional<Book> getBookByIsbn(String isbn);
 }

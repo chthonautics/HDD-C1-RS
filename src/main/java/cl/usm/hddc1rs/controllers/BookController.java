@@ -4,7 +4,7 @@ import cl.usm.hddc1rs.entities.Book;
 import cl.usm.hddc1rs.services.BookService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.server.ExposesResourceFor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,9 +31,16 @@ public class BookController {
 
     @PostMapping("/libros")
     public ResponseEntity<?> createBook(@RequestBody @Valid Book book){
-        boolean res = bookService.createBook(book);
 
-        if(res) return ResponseEntity.ok().build();
+        // avoid collision before saving
+        // this is better than the default because it returns a code
+        // unlike the default which returns nothing at all
+        if(bookService.getBookByIsbn(book.getIsbn()).isPresent()){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
+        boolean res = bookService.createBook(book);
+        if(res) return ResponseEntity.ok().build(); // success!
 
         return ResponseEntity.internalServerError().build();
     }

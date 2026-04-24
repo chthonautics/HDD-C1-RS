@@ -46,4 +46,9 @@ public class BookServiceImpl implements BookService{
                         || book.getTitulo().toLowerCase().contains(queryLower)
                 ).collect(Collectors.toList());
     }
+
+    // helper function to avoid collision with already existing data
+    public Optional<Book> getBookByIsbn(String isbn) {
+        return this.bookRepository.findById(isbn);
+    }
 }
